@@ -1,0 +1,17 @@
+# Use the official Java SE 17 image as the base image
+FROM openjdk:17-jdk
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the app and its dependencies
+COPY . .
+
+# Run mvn package to compile the Java code
+RUN mvn package
+
+# Remove the sources and other unnecessary files
+RUN rm -rf src pom.xml
+
+# Run the app with the resulting jar file
+CMD ["java", "-jar", "target/app.jar"]

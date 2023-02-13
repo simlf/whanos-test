@@ -1,0 +1,20 @@
+# Use the official image as the base image
+FROM gcc:11.2
+
+# Set the working directory to the app directory
+WORKDIR /app
+
+# Copy the source code to the image
+COPY . .
+
+# Run the make command to compile the application
+RUN make
+
+# Remove the sources and other unnecessary files
+RUN rm -rf ./*
+
+# Copy the compiled binary to the app directory
+COPY [compiled-app] .
+
+# Set the entrypoint to the compiled binary
+ENTRYPOINT ["./[compiled-app]"]
