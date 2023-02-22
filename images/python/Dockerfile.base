@@ -1,0 +1,17 @@
+# Use a lightweight python image
+FROM python:3.10
+
+# Install bash
+RUN apk add --no-cache bash
+
+# Copy app files to /app directory
+COPY . /app
+
+# Set working directory to /app
+WORKDIR /app
+
+# Install app dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Run the app
+CMD ["python", "-m", "app"]

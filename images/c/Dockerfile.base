@@ -1,20 +1,23 @@
 # Use the official image as the base image
 FROM gcc:11.2
 
+# using bash shell
+SHELL ["/bin/bash", "-c"]
+
 # Set the working directory to the app directory
-WORKDIR /app
+ONBUILD WORKDIR /app
 
 # Copy the source code to the image
-COPY . .
+ONBUILD COPY /app .
 
 # Run the make command to compile the application
-RUN make
+ONBUILD RUN make
 
 # Remove the sources and other unnecessary files
-RUN rm -rf ./*
+ONBUILD RUN rm -rf ./*
 
 # Copy the compiled binary to the app directory
-COPY [compiled-app] .
+ONBUILD COPY [compiled-app] .
 
 # Set the entrypoint to the compiled binary
-ENTRYPOINT ["./[compiled-app]"]
+ONBUILD ENTRYPOINT ["./[compiled-app]"]

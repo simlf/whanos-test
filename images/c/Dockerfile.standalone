@@ -1,0 +1,27 @@
+# Use a multi-stage build for smaller image size
+# Compile stage
+FROM gcc:11.2 AS builder
+
+# Set working directory to /app
+WORKDIR /app
+
+# Copy source code to /app
+COPY . .
+
+# Compile the binary
+RUN make
+
+# Run stage
+FROM alpine:3.15
+
+# Install bash and glibc for compatibility with the binary
+RUN apk add --no-cache bash libc6-compat
+
+# Set working directory to /app
+WORKDIR /app
+
+# Copy binary from the compile stage to /app
+COPY --from=builder /app/compiled-app .
+
+# Set the default command to run the binary
+CMD ["./compiled-app"]

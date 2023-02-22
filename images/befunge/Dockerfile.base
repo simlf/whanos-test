@@ -1,22 +1,25 @@
 # Utiliser l'image officielle comme base
 FROM alpine:3.12 as base
 
+# using bash shell
+SHELL ["/bin/bash", "-c"]
+
 # Set the working directory to /app
-WORKDIR /app
+ONBUILD WORKDIR /app
 
 # Copier le fichier source de Befunge-93
-COPY main.bf .
+ONBUILD COPY /app .
 
 # Installer l'interpréteur Befunge-93
-RUN apk update \
+ONBUILD RUN apk update \
     && apk add befunge
 
 # Compiler le fichier source de Befunge-93
-RUN befunge main.bf
+ONBUILD RUN befunge main.bf
 
 # Supprimer les fichiers inutiles
-RUN rm main.bf
+ONBUILD RUN rm main.bf
 
 # Définir l'entrypoint pour exécuter le programme compilé
-ENTRYPOINT [ "befunge" ]
-CMD [ "main.bf" ]
+ONBUILD ENTRYPOINT [ "befunge" ]
+ONBUILD CMD [ "main.bf" ]

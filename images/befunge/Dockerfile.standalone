@@ -1,0 +1,16 @@
+FROM node:14.17.5
+
+SHELL ["/bin/bash", "-c"]
+
+# Install custom "bin" to interpret befunge93
+RUN npm i befunge93 \
+    && curl -L https://raw.githubusercontent.com/siraben/befunge93-cli/main/bin/befunge93-cli.js -o /opt/befunge93-cli.js
+
+# Copy app files to /app directory
+COPY /app .
+
+# Set working directory to /app
+WORKDIR /app
+
+# Run the befunge file
+CMD node /opt/befunge93-cli.js -f app/main.bf

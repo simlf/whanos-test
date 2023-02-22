@@ -1,0 +1,33 @@
+
+FROM node:14.17.5-alpine
+
+# install bash
+RUN apk add --no-cache bash
+# using bash shell
+SHELL ["/bin/bash", "-c"]
+# copying all worker files in the docker
+COPY . /app
+# going to /app
+WORKDIR /app
+# Install app dependencies
+RUN npm install --production=false
+# run the application
+CMD [ "node", "." ]
+
+# # Use a lightweight node image
+# FROM node:14.17.5
+
+# # Install bash
+# RUN apk add --no-cache bash
+
+# # Copy app files to /app directory
+# COPY /app .
+
+# # Set working directory to /app
+# WORKDIR /app
+
+# # Install app dependencies
+# RUN npm install --production=false
+
+# # Run the app
+# CMD [ "node", "." ]
